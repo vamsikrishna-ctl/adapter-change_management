@@ -131,7 +131,7 @@ healthcheck(callback) {
 
       this.emitOnline();
       
-      log.debug(result);
+      //log.debug(result);
    }
  });
 }
@@ -190,40 +190,7 @@ healthcheck(callback) {
      * get() takes a callback function.
      */
 
-     let changeTicket = {
-         "change_ticket_number":null,
-         "active":null,
-         "priority":null,
-         "description":null,
-         "work_start":null,
-         "work_end":null,
-         "change_ticket_key":null
-     };
-
-     let changeTickets = {
-         changeTicket: []
-     };
-
-     this.connector.get((result,error) => {
-         if(result && result.body){
-             let responseBody = JSON.parse(result.body);
-             if(responseBody && responseBody.result && responseBody.result.length>0){
-                 let result=responseBody.result;
-                 for(let i=0;i<result.length;i++){
-                     changeTickets.changeTicket.push({
-                         "change_ticket_number":result[i].number,
-                         "active":result[i].active,
-                         "priority":result[i].priority,
-                         "description":result[i].description,
-                         "work_start":result[i].work_start,
-                         "work_end":result[i].work_end,
-                         "change_ticket_key":result[i].sys_id
-                     });
-                 }
-             }
-         }
-         callback(changeTickets,error)
-     });
+     this.connector.get((result,error) => callback(result,error));
         
 
   }
@@ -245,33 +212,10 @@ healthcheck(callback) {
      * post() takes a callback function.
      */
 
-     let changeTicket = {
-         "change_ticket_number":null,
-         "active":null,
-         "priority":null,
-         "description":null,
-         "work_start":null,
-         "work_end":null,
-         "change_ticket_key":null
-     };
+     this.connector.post((result,error) => callback(result,error));
 
-     this.connector.post((result,error) => {
-
-         if(result && result.body){
-             let responseBody = JSON.parse(result.body);
-             if(responseBody && responseBody.result){
-                    changeTicket.change_ticket_number = responseBody.result.number,
-                    changeTicket.active = responseBody.result.active,
-                    changeTicket.priority = responseBody.result.priority,
-                    changeTicket.description = responseBody.result.description,
-                    changeTicket.work_start = responseBody.result.work_start,
-                    changeTicket.work_end = responseBody.result.work_end,
-                    changeTicket.change_ticket_key = responseBody.result.sys_id
-                     }
-                 }
-                 callback(changeTicket,error)
-     });
      
+
   }
 }
 
